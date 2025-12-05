@@ -1,1 +1,2 @@
-# telegram_bot_December_Yota_month
+# bot_telegram_dym
+Bot per gestire i call del DYM 2025

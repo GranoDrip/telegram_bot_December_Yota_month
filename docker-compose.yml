@@ -1,0 +1,11 @@
+services:
+  radio-bot:
+    # Costruisci l'immagine usando il Dockerfile nella cartella corrente
+    build: . 
+    # Nome del container per trovarlo facilmente
+    container_name: my-radio-bot
+    # Riavvia sempre il bot se crasha o se il server si riavvia
+    restart: unless-stopped
+    # (Opzionale) Se volessi impostare il fuso orario corretto
+    environment:
+      - TZ=Europe/Rome
