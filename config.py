@@ -33,4 +33,13 @@ MODI = configData.get("modi",[])
 
 NOMINATIVO, BANDA, MODO, SET_CALL, RICEZIONE_LOG_CHIUSURA = range(5)
 
-
+CMDS = (
+    "Comandi disponibili:\n"
+    "📜 /regole - Mostra le regole\n"
+    "🔔 /notifiche - Gestisci le notifiche (in arrivo)\n"
+    "🆔 /call - Aggiungi il tuo nominativo personale\n"
+    "📡 /attiva - Inizia una nuova attivazione\n"
+    "📝 /lista - Vedi chi è attualmente in frequenza\n"
+    "🛑 /fine - Termina la tua attivazione corrente\n"
+    "⚙️ /comandi - Lista dei comandi disponibili\n"
+)

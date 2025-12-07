@@ -1,5 +1,6 @@
 from telegram import Update, ReplyKeyboardRemove
 from telegram.ext import ContextTypes, CommandHandler, ConversationHandler
+from config import CMDS
 
 async def regole(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Mostra le regole di utilizzo del bot."""
@@ -15,16 +16,13 @@ async def regole(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         "⚠️ Assicurati di non avere attivazioni multiple aperte contemporaneamente.\n"
         "Buon divertimento e buoni collegamenti! 📡"
     )
+
+    # Messaggio con la lista di comandi
     await update.message.reply_text(
-        f"Comandi disponibili:\n"
-        "📜 /regole - Mostra le regole\n"
-        "🔔 /notifiche - Gestisci le notifiche (in arrivo)\n"
-        "🆔 /call - Aggiungi il tuo nominativo personale\n"
-        "📡 /attiva - Inizia una nuova attivazione\n"
-        "📝 /lista - Vedi chi è attualmente in frequenza\n"
-        "🛑 /fine - Termina la tua attivazione corrente\n"
-        "⚙️ /comandi - Lista dei comandi disponibili\n"
+        f"""{CMDS}"""
     )
+
+
     return ConversationHandler.END
 
 def getRegole() -> CommandHandler:

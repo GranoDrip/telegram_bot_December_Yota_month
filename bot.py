@@ -22,6 +22,7 @@ from telegram.ext import (
 from handler.start import getStart
 from handler.regole import getRegole
 from handler.call import getCall
+from handler.cmds import getCmds # Comandi
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -37,7 +38,7 @@ app.add_handler(getCall()) # CALL
 # ATTIVA
 # LISTA
 # FINE 
-# COMANDI
+app.add_handler(getCmds()) # COMANDI
 
 # Avvio
 if __name__ == "__main__":

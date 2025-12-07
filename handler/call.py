@@ -19,14 +19,14 @@ async def callState_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 async def callState_TWO(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Fase 2: L'utente ha scritto il nominativo. Lo salviamo."""
     user_id = update.effective_user.id
-    input_text = update.message.text.upper().strip()
+    input_text = update.message.text.upper().strip() # TRASFORMO TUTTI IN MAIUSCOLO E TOLGO GLI SPAZI
     
     # Validazione base: lunghezza
     if len(input_text) < 3 or len(input_text) > 10:
         await update.message.reply_text("⚠️ Nominativo non valido (troppo corto o lungo). Riprova.")
         return SET_CALL # Rimaniamo in attesa finché non ne scrive uno giusto
 
-    # Salviamo nel registro
+    # TODO: INSERIRE IL NOMINATIVO NEL DATABASE
     await update.message.reply_text(
         f"NOMINATIVO INSERITO NEL DB"
     )
