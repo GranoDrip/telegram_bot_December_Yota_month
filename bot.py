@@ -19,7 +19,9 @@ from telegram.ext import (
     filters,
 )
 
-from handler.start import start
+from handler.start import getStart
+from handler.regole import getRegole
+from handler.call import getCall
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -27,7 +29,15 @@ logging.basicConfig(
 )
 
 app = Application.builder().token(BOT_TOKEN).build()
-app.add_handler(CommandHandler("start", start))
+
+# Comandi principali
+app.add_handler(getStart()) # START
+app.add_handler(getRegole()) # REGOLE
+app.add_handler(getCall()) # CALL
+# ATTIVA
+# LISTA
+# FINE 
+# COMANDI
 
 # Avvio
 if __name__ == "__main__":

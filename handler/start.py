@@ -21,5 +21,5 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     return ConversationHandler.END
 
-def get_handler():
+def getStart() -> CommandHandler:
     return CommandHandler("start", start)
