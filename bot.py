@@ -19,26 +19,31 @@ from telegram.ext import (
     filters,
 )
 
+from database.db import initDatabase
+
 from handler.start import getStart
 from handler.regole import getRegole
 from handler.call import getCall
 from handler.cmds import getCmds # Comandi
 
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO
-)
+# logging.basicConfig(
+#     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+#     level=logging.INFO
+# )
 
 app = Application.builder().token(BOT_TOKEN).build()
 
+initDatabase()
+print("Inizializzazione del DB")
+
 # Comandi principali
-app.add_handler(getStart()) # START
-app.add_handler(getRegole()) # REGOLE
-app.add_handler(getCall()) # CALL
+app.add_handler(getStart()) # START -- OK
+app.add_handler(getRegole()) # REGOLE -- OK
+app.add_handler(getCall()) # CALL -- OK -> INSERIRE NOMINATIVO NEL DB
 # ATTIVA
-# LISTA
+# LISTA 
 # FINE 
-app.add_handler(getCmds()) # COMANDI
+app.add_handler(getCmds()) # COMANDI - OK
 
 # Avvio
 if __name__ == "__main__":

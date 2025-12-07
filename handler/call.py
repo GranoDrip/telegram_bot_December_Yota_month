@@ -2,6 +2,8 @@ from telegram import Update,ReplyKeyboardMarkup,ReplyKeyboardRemove
 from telegram.ext import ContextTypes, CommandHandler, ConversationHandler,MessageHandler,filters
 from config import SET_CALL
 
+from database.db import getNominativi,addNominativo
+
 async def callState_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     # In questo stato della /call inserisco il nominativo
@@ -26,10 +28,15 @@ async def callState_TWO(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         await update.message.reply_text("⚠️ Nominativo non valido (troppo corto o lungo). Riprova.")
         return SET_CALL # Rimaniamo in attesa finché non ne scrive uno giusto
 
+    addNominativo(input_text)
+
+    nominativi = getNominativi()
+
+    if nominativi:
+        strng = "\n".join(f"{nominativo}" for nominativo in nominativi)
+
     # TODO: INSERIRE IL NOMINATIVO NEL DATABASE
-    await update.message.reply_text(
-        f"NOMINATIVO INSERITO NEL DB"
-    )
+    await update.message.reply_text(str(nominativi))
     
     await update.message.reply_text(
         f"✅ Perfetto!\n"
