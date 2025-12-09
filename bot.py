@@ -4,11 +4,9 @@ bot.py
 """
 
 from config import *
-
 import logging
 import os
 from telegram.ext import Application
-
 
 from database.db import initDatabase
 
@@ -32,8 +30,8 @@ print("Inizializzazione del DB")
 # Comandi principali
 app.add_handler(getStart()) # START -- OK
 app.add_handler(getRegole()) # REGOLE -- OK
-app.add_handler(getCall()) # CALL -- OK -> INSERIRE NOMINATIVO NEL DB
-app.add_handler(getAttiva()) # COLLEGAMENTO -> FIXARE
+app.add_handler(getCall()) # CALL -- OK
+app.add_handler(getAttiva()) # COLLEGAMENTO --> BANDE E MODI
 app.add_handler(printAttivi()) # ATTIVI -- OK
 # FINE 
 app.add_handler(getCmds()) # COMANDI - OK

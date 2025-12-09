@@ -5,10 +5,11 @@ from database.db import getAttivi,addAttivi,isAttivo
 async def attivi(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     attivi = getAttivi()
+    print(attivi)
 
     messaggio = "<h1>🔇 Al momento non c'è nessuno in frequenza.</h1>"
 
-    if attivi is not None:
+    if attivi:
         messaggio = ""
         for r in attivi:
             messaggio += (

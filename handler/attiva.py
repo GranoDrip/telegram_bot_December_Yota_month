@@ -4,7 +4,7 @@ from keyboards import getKeyboardNominativi,getKeyboard_Bande,getKeyboard_Modi
 from handler.call import cancel # TODO: Isolare cancel
 import datetime
 from config import NOMINATIVO,BANDA,MODO,MODI_DATA,NOMINATIVI_SPECIALI,BANDE_DATA
-from database.db import getAttivi,addAttivi,isAttivo
+from database.db import getAttivi,addAttivi,isAttivo, selectNominativo,getUtentiConcorrenti
 
 async def attivazioneStep_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
@@ -19,44 +19,25 @@ async def attivazioneStep_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE
             "Usa /fine prima di ricominciare."
         )
         return ConversationHandler.END
-
-    # Aquisisco la keyboard da keyboards.py
-
-    await update.message.reply_text(
-        "Ok, iniziamo! 🎙️\n"
-        "Seleziona il Nominativo con cui vuoi trasmettere:",
-        reply_markup=getKeyboardNominativi()
-    ) 
-    return NOMINATIVO # Ora devo scegliere il nominativo
-
-# Dopo aver scritto il nominativo
-async def attivazioneStep_TWO(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-
-    """ Acquisisco il nominativo lo controllo e genero le bande """
-
-    # Sicuramente lo devo acquisire quindi
-    nominativo = update.message.text.upper().strip()
-
-    # Controllo se esiste
-    if nominativo not in NOMINATIVI_SPECIALI:
-        await update.message.reply_text(
-            f"⚠️ Questo nominativo non risulta registrato: {nominativo}.\n"
-            "Scegline uno dalla tastiera!"
-        )
-        return NOMINATIVO
-
     
-    # Salvo il "nominativo"
-    context.user_data['temp_call'] = nominativo
+    elif selectNominativo(update.effective_user.id) is None:
 
-
-    await update.message.reply_text(
-        f"✅ Operi come {nominativo}.\n"
+        await update.message.reply_text(
+            f"⚠️ Non risulti associato ad un nominativo YOTA \n esegui /call \n"
+        ) 
+        return ConversationHandler.END
+    
+    else:
+        nominativo = selectNominativo(update.effective_user.id)
+        context.user_data['temp_call'] = nominativo[2] # Nominativo speciale
+        context.user_data['temp_operator'] = nominativo[0] # Nominativo personale
+        await update.message.reply_text(
+        f"✅ Operi come {nominativo[2]}\n🗣️Operatore:{nominativo[0]}.\n"
         "Ora seleziona la Banda su cui trasmetterai:",
         reply_markup=getKeyboard_Bande() 
-    )
+        )
 
-    return BANDA # Ora devo scegliere la banda
+    return BANDA # Passo all'acquisizione della banda
 
 async def attivazioneStep_THREE(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """ Ricevo e controllo la banda """
@@ -71,15 +52,28 @@ async def attivazioneStep_THREE(update: Update, context: ContextTypes.DEFAULT_TY
         )
         return BANDA
     
-    # Controllo se è libera
-        # E costruisco il messaggio di risposta se non è libera indicando CHI e COME
+    # === Piu operatori possono operare sulla stessa banda MA con modo DIVERSO. ===
+    occupati = getUtentiConcorrenti(context.user_data['temp_call'],banda)
+    messaggio_avviso = ""
+    if occupati:
+        # Creiamo una lista formattata degli utenti già attivi
+        lista_occupati = "\n".join(
+            f"🗣️ {operatore} (Modo: {modo})" for modo, operatore in occupati
+        )
+        messaggio_avviso = (
+            f"⚠️ Nota: Su {banda} sono già attivi i seguenti operatori:\n"
+            f"{lista_occupati}\n"
+            "Puoi comunque operare, ma scegli un modo diverso!\n\n"
+        )
+
+
 
     # Salvo la banda in cui lavoro
     context.user_data['temp_banda'] = banda
 
     # Passo alla scelta del modo
     await update.message.reply_text(
-        f"👍 Banda {banda} selezionata.\n"
+        f"{messaggio_avviso}\n👍 Banda {banda} selezionata.\n"
         "Ora seleziona il Modo di Emissione:",
         reply_markup=getKeyboard_Modi()
     )
@@ -91,11 +85,32 @@ async def attivazioneStep_FOUR(update: Update, context: ContextTypes.DEFAULT_TYP
 
     modo = update.message.text.strip()
 
-    # Controlla gli altri in call
-        # Se è occupata allora cambia     
+    # Se Il modo è già occupato da un altro con stessa banda: BLOCCALO   
+    occupati = getUtentiConcorrenti(context.user_data['temp_call'], context.user_data["temp_banda"])
+    print(occupati)
+    isOccupato = None
+    operatorName = None
+
+    for modo, operatore in occupati:
+        if modo == modo:
+            isOccupato = modo
+            operatorName = operatore
+            break
+
+    if isOccupato:
+        markup_modi = getKeyboard_Modi()  # la tua funzione per rigenerare i pulsanti
+        await update.message.reply_text(
+            f"🛑 STOP! FREQUENZA OCCUPATA 🛑\n\n"
+            f"Non puoi andare in {modo} su {context.user_data["temp_banda"]}!\n"
+            f"C'è già l'operatore: {operatorName}\n\n"
+            "👇 Scegli un altro modo:",
+            reply_markup=markup_modi
+        )
+        return MODO  
+
     
     # Inserimento dell'attivazione 
-    addAttivi(context.user_data["temp_call"], context.user_data["temp_banda"], modo, update.effective_user.first_name ,datetime.datetime.now().strftime("%H:%M"))
+    addAttivi(context.user_data["temp_call"], context.user_data["temp_banda"], modo, context.user_data["temp_operator"] ,datetime.datetime.now().strftime("%H:%M"))
 
     # Visualizzazione del messaggio
     await update.message.reply_text(
@@ -103,7 +118,7 @@ async def attivazioneStep_FOUR(update: Update, context: ContextTypes.DEFAULT_TYP
         f"🆔 Call: {context.user_data["temp_call"]}\n"
         f"〰️ Banda: {context.user_data["temp_banda"]}\n"
         f"🔊 Modo: {modo}\n"
-        f"👤 Op: {update.effective_user.first_name}\n"
+        f"👤 Op: {context.user_data["temp_operator"]}\n"
         f"🕒 Ora: {datetime.datetime.now().strftime("%H:%M")}\n\n"
         "Buon DX! /fine per chiudere.",
         reply_markup=ReplyKeyboardRemove()
@@ -117,7 +132,6 @@ async def attivazioneStep_FOUR(update: Update, context: ContextTypes.DEFAULT_TYP
 attiva = ConversationHandler(
     entry_points=[CommandHandler("attiva", attivazioneStep_ONE)],
     states={
-        NOMINATIVO: [MessageHandler(filters.TEXT & ~filters.COMMAND, attivazioneStep_TWO)],
         BANDA: [MessageHandler(filters.TEXT & ~filters.COMMAND, attivazioneStep_THREE)],
         MODO: [MessageHandler(filters.TEXT & ~filters.COMMAND, attivazioneStep_FOUR)],
     },

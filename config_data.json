@@ -1,7 +1,7 @@
 {
-  "nominativi": ["II0YOTA", "II3YOTA", "II7YOTA"],
+  "nominativi": ["II0YOTA", "II3YOTA", "II5YOTA","II7YOTA","II9YOTA"],
 
-  "bande": ["80m","40m","20m","17m","15m","12m","10m","6m","2m","70cm"],
+  "bande": ["160m","80m","60m","40m","30m","20m","17m","15m","12m","10m","6m","2m","70cm"],
   
   "modi": ["SSB","CW","FT8","FT4","RTTY","PSK31","SSTV","FM"]
 }

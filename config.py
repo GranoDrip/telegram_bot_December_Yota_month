@@ -31,7 +31,7 @@ NOMINATIVI_SPECIALI = configData.get("nominativi",[])
 BANDE_DATA = configData.get("bande",[])
 MODI_DATA = configData.get("modi",[])
 
-NOMINATIVO, BANDA, MODO, SET_CALL, RICEZIONE_LOG_CHIUSURA = range(5)
+NOMINATIVO, BANDA, MODO, SET_CALL, SET_TEAM , RICEZIONE_LOG_CHIUSURA = range(6)
 
 CMDS = (
     "Comandi disponibili:\n"

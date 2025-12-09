@@ -1,6 +1,7 @@
 from telegram import Update,ReplyKeyboardMarkup,ReplyKeyboardRemove
 from telegram.ext import ContextTypes, CommandHandler, ConversationHandler,MessageHandler,filters
-from config import SET_CALL
+from config import SET_CALL,SET_TEAM,CMDS,NOMINATIVI_SPECIALI
+from keyboards import getKeyboardNominativi
 
 from database.db import getNominativi,addNominativo
 
@@ -28,30 +29,31 @@ async def callState_TWO(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         await update.message.reply_text("⚠️ Nominativo non valido (troppo corto o lungo). Riprova.")
         return SET_CALL # Rimaniamo in attesa finché non ne scrive uno giusto
 
-    addNominativo(input_text)
+    # Assegno automaticamente il nominativo 
+    numero = ''.join([c for c in input_text if c.isdigit()])
+    team = None
 
-    nominativi = getNominativi()
+    if numero:
+        for n in NOMINATIVI_SPECIALI:
+            if numero in n:
+                team = n
+                print(team)
+                break
 
-    if nominativi:
-        strng = "\n".join(f"{nominativo}" for nominativo in nominativi)
+    if team is None:
+        await update.message.reply_text("⚠️ Nominativo non associabile, contatta l'amministratore")
+        return ConversationHandler.END
+    else:
+        addNominativo(input_text, str(update.effective_user.id), str(team)) # Aggiungo il nominativo al database
 
-    # TODO: INSERIRE IL NOMINATIVO NEL DATABASE
-    await update.message.reply_text(str(nominativi))
+        nominativi = getNominativi()
+
+        # await update.message.reply_text(str(nominativi)) # Visualizzo i nominativi
+
+        await update.message.reply_text(
+            f"✅ Perfetto! {input_text} il tuo team di appartenenza è {team}\n"
+        )
     
-    await update.message.reply_text(
-        f"✅ Perfetto!\n"
-        f"Registrazione di {input_text} effettuata con successo.\n"
-    )
-    await update.message.reply_text(
-        f"Comandi disponibili:\n"
-        "📜 /regole - Mostra le regole\n"
-        "🔔 /notifiche - Gestisci le notifiche (in arrivo)\n"
-        "🆔 /call - Aggiungi il tuo nominativo personale\n"
-        "📡 /attiva - Inizia una nuova attivazione\n"
-        "📝 /lista - Vedi chi è attualmente in frequenza\n"
-        "🛑 /fine - Termina la tua attivazione corrente\n"
-        "⚙️ /comandi - Lista dei comandi disponibili\n"
-    )
     return ConversationHandler.END
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

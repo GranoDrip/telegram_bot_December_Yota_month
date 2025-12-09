@@ -20,12 +20,22 @@ def getNominativi():
         curs = conn.cursor()
         curs.execute("SELECT * FROM nominativi")
         return curs.fetchall()
-    
-def addNominativo(nominativo: str):
+
+def selectNominativo(userId: str):
     with sqlite3.connect(DB_FILE) as conn:
         curs = conn.cursor()
-        curs.execute("INSERT INTO nominativi (nominativo) VALUES (?)",(nominativo,))
+        curs.execute("SELECT * FROM nominativi where userId = ?",(userId,))
+        return curs.fetchone()
+
+def addNominativo(nominativo: str,userId: str,team:str):
+    with sqlite3.connect(DB_FILE) as conn:
+        curs = conn.cursor()
+        if selectNominativo(userId): # Se esiste modifico
+            curs.execute("UPDATE nominativi SET nominativo = ? WHERE userId = ?",(nominativo,userId))
+        else: # Altrimenti lo inserisco
+            curs.execute("INSERT INTO nominativi (nominativo,userId,team) VALUES (?,?,?)",(nominativo,userId,team))
         conn.commit()
+
 
 def getAttivi():
     with sqlite3.connect(DB_FILE) as conn:
@@ -46,9 +56,10 @@ def isAttivo(operatore: str):
         curs.execute("SELECT * FROM attivi WHERE operatore = ?", (operatore,))
         return curs.fetchone()
     
+def getUtentiConcorrenti(nominativoSpeciale:str,banda:str):
 
-def getUtentiConcorrenti(nominativo:str,banda:str):
     with sqlite3.connect(DB_FILE) as conn:
         curs = conn.cursor()
-        curs.execute("SELECT modo,operatore FROM attivi WHERE nominativo = ? AND banda = ?", (nominativo,banda))
+        curs.execute("SELECT modo,operatore FROM attivi WHERE nominativo = ? AND banda = ?", (nominativoSpeciale,banda))
         return curs.fetchall()
+    
