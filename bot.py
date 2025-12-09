@@ -25,6 +25,7 @@ from handler.start import getStart
 from handler.regole import getRegole
 from handler.call import getCall
 from handler.cmds import getCmds # Comandi
+from handler.attiva import getAttiva
 
 # logging.basicConfig(
 #     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -40,8 +41,7 @@ print("Inizializzazione del DB")
 app.add_handler(getStart()) # START -- OK
 app.add_handler(getRegole()) # REGOLE -- OK
 app.add_handler(getCall()) # CALL -- OK -> INSERIRE NOMINATIVO NEL DB
-# ATTIVA
-# LISTA 
+app.add_handler(getAttiva()) # LISTA 
 # FINE 
 app.add_handler(getCmds()) # COMANDI - OK
 

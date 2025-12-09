@@ -27,9 +27,9 @@ YOTA_API_KEY = os.getenv("YOTA_API_KEY")
 with open("config_data.json",'r') as cf:
     configData = dict(json.load(cf))
 
-NOMINATIVI = configData.get("nominativi",[])
-BANDE = configData.get("bande",[])
-MODI = configData.get("modi",[])
+NOMINATIVI_SPECIALI = configData.get("nominativi",[])
+BANDE_DATA = configData.get("bande",[])
+MODI_DATA = configData.get("modi",[])
 
 NOMINATIVO, BANDA, MODO, SET_CALL, RICEZIONE_LOG_CHIUSURA = range(5)
 

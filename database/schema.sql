@@ -4,3 +4,4 @@ CREATE TABLE IF NOT EXISTS nominativi(
     nominativo VARCHAR(10) PRIMARY KEY UNIQUE
 )
 
+
