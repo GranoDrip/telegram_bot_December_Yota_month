@@ -7,17 +7,8 @@ from config import *
 
 import logging
 import os
-import requests
-from datetime import datetime
-from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    ContextTypes,
-    ConversationHandler,
-    MessageHandler,
-    filters,
-)
+from telegram.ext import Application
+
 
 from database.db import initDatabase
 
@@ -26,6 +17,7 @@ from handler.regole import getRegole
 from handler.call import getCall
 from handler.cmds import getCmds # Comandi
 from handler.attiva import getAttiva
+from handler.listaAttivi import printAttivi
 
 # logging.basicConfig(
 #     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -41,7 +33,8 @@ print("Inizializzazione del DB")
 app.add_handler(getStart()) # START -- OK
 app.add_handler(getRegole()) # REGOLE -- OK
 app.add_handler(getCall()) # CALL -- OK -> INSERIRE NOMINATIVO NEL DB
-app.add_handler(getAttiva()) # LISTA 
+app.add_handler(getAttiva()) # COLLEGAMENTO -> FIXARE
+app.add_handler(printAttivi()) # ATTIVI -- OK
 # FINE 
 app.add_handler(getCmds()) # COMANDI - OK
 

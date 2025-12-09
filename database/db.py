@@ -26,4 +26,29 @@ def addNominativo(nominativo: str):
         curs = conn.cursor()
         curs.execute("INSERT INTO nominativi (nominativo) VALUES (?)",(nominativo,))
         conn.commit()
+
+def getAttivi():
+    with sqlite3.connect(DB_FILE) as conn:
+        curs = conn.cursor()
+        curs.execute("SELECT * FROM attivi")
+        return curs.fetchall()
     
+  
+def addAttivi(call: str, banda: str, modo: str, operatore: str, ora: str):
+    with sqlite3.connect(DB_FILE) as conn:
+        curs = conn.cursor()
+        curs.execute("INSERT INTO attivi (nominativo, banda, modo, operatore, ora) VALUES (?, ?, ?, ?, ?)", (call, banda, modo, operatore, ora))
+        conn.commit()
+
+def isAttivo(operatore: str):
+    with sqlite3.connect(DB_FILE) as conn:
+        curs = conn.cursor()
+        curs.execute("SELECT * FROM attivi WHERE operatore = ?", (operatore,))
+        return curs.fetchone()
+    
+
+def getUtentiConcorrenti(nominativo:str,banda:str):
+    with sqlite3.connect(DB_FILE) as conn:
+        curs = conn.cursor()
+        curs.execute("SELECT modo,operatore FROM attivi WHERE nominativo = ? AND banda = ?", (nominativo,banda))
+        return curs.fetchall()
