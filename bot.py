@@ -16,6 +16,8 @@ from handler.call import getCall
 from handler.cmds import getCmds # Comandi
 from handler.attiva import getAttiva
 from handler.listaAttivi import printAttivi
+from handler.modifica import getModfica
+from handler.fine import getFine
 
 # logging.basicConfig(
 #     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -33,7 +35,8 @@ app.add_handler(getRegole()) # REGOLE -- OK
 app.add_handler(getCall()) # CALL -- OK
 app.add_handler(getAttiva()) # COLLEGAMENTO --> BANDE E MODI
 app.add_handler(printAttivi()) # ATTIVI -- OK
-# FINE 
+app.add_handler(getModfica()) # MODIFICA BANDA E COLLEGAMENTO 
+app.add_handler(getFine()) # FINE ATTIVAZIONE (** SENZA API **)
 app.add_handler(getCmds()) # COMANDI - OK
 
 # Avvio

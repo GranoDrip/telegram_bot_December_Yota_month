@@ -31,7 +31,7 @@ NOMINATIVI_SPECIALI = configData.get("nominativi",[])
 BANDE_DATA = configData.get("bande",[])
 MODI_DATA = configData.get("modi",[])
 
-NOMINATIVO, BANDA, MODO, SET_CALL, SET_TEAM , RICEZIONE_LOG_CHIUSURA = range(6)
+NOMINATIVO, BANDA, NEW_BANDA, MODO ,NEW_MODO, SET_CALL, SET_TEAM , RICEZIONE_LOG_CHIUSURA = range(8)
 
 CMDS = (
     "Comandi disponibili:\n"
@@ -39,6 +39,7 @@ CMDS = (
     "🔔 /notifiche - Gestisci le notifiche (in arrivo)\n"
     "🆔 /call - Aggiungi il tuo nominativo personale\n"
     "📡 /attiva - Inizia una nuova attivazione\n"
+    "🛠️ /modifica - Inizia una nuova attivazione\n"
     "📝 /lista - Vedi chi è attualmente in frequenza\n"
     "🛑 /fine - Termina la tua attivazione corrente\n"
     "⚙️ /comandi - Lista dei comandi disponibili\n"
