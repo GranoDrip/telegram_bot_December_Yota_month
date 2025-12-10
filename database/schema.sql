@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS nominativi; -- TESTING
 
 -- Handler Call
 CREATE TABLE IF NOT EXISTS nominativi(
@@ -8,7 +7,6 @@ CREATE TABLE IF NOT EXISTS nominativi(
 );
 
 
-DROP TABLE IF EXISTS attivi; -- TESTING
 CREATE TABLE IF NOT EXISTS attivi(
     attiviId INTEGER PRIMARY KEY AUTOINCREMENT,
     nominativo VARCHAR(10), -- Nominativo speciale
@@ -18,7 +16,6 @@ CREATE TABLE IF NOT EXISTS attivi(
     ora TIME 
 );
 
-DROP TABLE IF EXISTS storicoAttivi; -- TESTING
 CREATE TABLE IF NOT EXISTS storicoAttivi(
     attiviId INTEGER PRIMARY KEY AUTOINCREMENT,
     nominativo VARCHAR(10), -- Nominativo speciale

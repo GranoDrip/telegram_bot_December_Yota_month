@@ -39,7 +39,7 @@ CMDS = (
     "🔔 /notifiche - Gestisci le notifiche (in arrivo)\n"
     "🆔 /call - Aggiungi il tuo nominativo personale\n"
     "📡 /attiva - Inizia una nuova attivazione\n"
-    "🛠️ /modifica - Inizia una nuova attivazione\n"
+    "🛠️ /modifica - modifica la tua attuale attivazione\n"
     "📝 /lista - Vedi chi è attualmente in frequenza\n"
     "🛑 /fine - Termina la tua attivazione corrente\n"
     "⚙️ /comandi - Lista dei comandi disponibili\n"

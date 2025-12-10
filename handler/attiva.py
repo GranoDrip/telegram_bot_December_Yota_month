@@ -34,7 +34,7 @@ async def attivazioneStep_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE
     context.user_data['temp_call'] = nominativo[2] # Nominativo speciale
     context.user_data['temp_operator'] = nominativo[1] # Nominativo personale
     await update.message.reply_text(
-    f"✅ Operi come {nominativo[2]}\n🗣️Operatore:{nominativo[1]}.\n"
+    f"✅ Operi come {nominativo[2]}\n🗣️Operatore: {nominativo[1]}\n"
     "Ora seleziona la Banda su cui trasmetterai:",
     reply_markup=getKeyboard_Bande() 
     )

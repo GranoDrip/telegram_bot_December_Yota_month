@@ -10,26 +10,29 @@ from handler.call import cancel
 
 async def fineAttivazione(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
-    nominativo = selectNominativo(update.effective_user.id)
-    context.user_data["temp_nominativo"] = nominativo
-    attivo = isAttivo(nominativo[1])
-
-    if attivo is None:
+    try:
+        nominativo = selectNominativo(update.effective_user.id)
+        context.user_data["temp_nominativo"] = nominativo
+        attivo = isAttivo(nominativo[1])
+        if attivo is None:
+            await update.message.reply_text("Non risulti attivo")
+            return ConversationHandler.END
+        # Chiudo senza log
+        noLogKeyboard = ReplyKeyboardMarkup([["Chiudi senza Log"]], resize_keyboard=True, one_time_keyboard=True) 
+    
+        await update.message.reply_text(
+            f"🛑 Richiesta di Chiusura per {nominativo[2]}\n\n"
+            "Per terminare l'attività e liberare la frequenza, **devi caricare il log**.\n"
+            "📂 Invia ora il file .ADI o .ADIF qui in chat.",
+            reply_markup=noLogKeyboard,
+            parse_mode="Markdown"
+        )
+    
+        return RICEZIONE_LOG_CHIUSURA
+    except Exception as e:
         await update.message.reply_text("Non risulti attivo")
-        return ConversationHandler.END
 
-    # Chiudo senza log
-    noLogKeyboard = ReplyKeyboardMarkup([["Chiudi senza Log"]], resize_keyboard=True, one_time_keyboard=True) 
 
-    await update.message.reply_text(
-        f"🛑 Richiesta di Chiusura per {nominativo[2]}\n\n"
-        "Per terminare l'attività e liberare la frequenza, **devi caricare il log**.\n"
-        "📂 Invia ora il file .ADI o .ADIF qui in chat.",
-        reply_markup=noLogKeyboard,
-        parse_mode="Markdown"
-    )
-
-    return RICEZIONE_LOG_CHIUSURA
 
 # Mando il log attraverso l'API
 async def sendLog(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

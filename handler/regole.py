@@ -6,7 +6,7 @@ async def regole(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Mostra le regole di utilizzo del bot."""
     await update.message.reply_text(
         "📜 Regole per l'uso del Bot di Attivazione Radio del DYM 2025 📜\n\n"
-        "1. Usa il comando /call per inserire il tuo nominativo personale. (consigliato!)n"
+        "1. Usa il comando /call per inserire il tuo nominativo personale. (consigliato!)\n"
         "2. Usa il comando /attiva per iniziare una nuova attivazione.\n"
         "3. Seleziona il tuo nominativo dalla lista proposta.\n"
         "4. Fornisci la frequenza su cui opererai.\n"
