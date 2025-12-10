@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS nominativi(
     team VARCHAR(10) -- Nominativo speciale
 );
 
-
 CREATE TABLE IF NOT EXISTS attivi(
     attiviId INTEGER PRIMARY KEY AUTOINCREMENT,
     nominativo VARCHAR(10), -- Nominativo speciale

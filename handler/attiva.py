@@ -103,7 +103,7 @@ async def attivazioneStep_THREE(update: Update, context: ContextTypes.DEFAULT_TY
         markup_modi = getKeyboard_Modi()  # la tua funzione per rigenerare i pulsanti
         await update.message.reply_text(
             f"🛑 STOP! FREQUENZA OCCUPATA 🛑\n\n"
-            f"Non puoi andare in {modoScelto} su {context.user_data["temp_banda"]}!\n"
+            f'Non puoi andare in {modoScelto} su {context.user_data["temp_banda"]}!\n'
             f"C'è già l'operatore: {operatorName}\n\n"
             "👇 Scegli un altro modo:",
             reply_markup=markup_modi
@@ -117,11 +117,11 @@ async def attivazioneStep_THREE(update: Update, context: ContextTypes.DEFAULT_TY
     # Visualizzazione del messaggio
     await update.message.reply_text(
         f"✅ Attivazione Avviata!\n\n"
-        f"🆔 Call: {context.user_data["temp_call"]}\n"
-        f"〰️ Banda: {context.user_data["temp_banda"]}\n"
+        f'🆔 Call: {context.user_data["temp_call"]}\n'
+        f'〰️ Banda: {context.user_data["temp_banda"]}\n'
         f"🔊 Modo: {modoScelto}\n"
-        f"👤 Op: {context.user_data["temp_operator"]}\n"
-        f"🕒 Ora: {datetime.datetime.now().strftime("%H:%M")}\n\n"
+        f'👤 Op: {context.user_data["temp_operator"]}\n'
+        f'🕒 Ora: {datetime.datetime.now().strftime("%H:%M")}\n\n'
         "Buon DX! /fine per chiudere.",
         reply_markup=ReplyKeyboardRemove()
     )
