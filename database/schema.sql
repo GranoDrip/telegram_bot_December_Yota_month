@@ -1,11 +1,12 @@
-
 -- Handler Call
+DROP TABLE IF EXISTS nominativi;
 CREATE TABLE IF NOT EXISTS nominativi(
     userId VARCHAR(20) PRIMARY KEY UNIQUE,
     nominativo VARCHAR(10)  UNIQUE, -- Nominativo personale
     team VARCHAR(10) -- Nominativo speciale
 );
 
+DROP TABLE IF EXISTS attivi;
 CREATE TABLE IF NOT EXISTS attivi(
     attiviId INTEGER PRIMARY KEY AUTOINCREMENT,
     nominativo VARCHAR(10), -- Nominativo speciale
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS attivi(
     ora TIME 
 );
 
+DROP TABLE IF EXISTS storicoAttivi;
 CREATE TABLE IF NOT EXISTS storicoAttivi(
     attiviId INTEGER PRIMARY KEY AUTOINCREMENT,
     nominativo VARCHAR(10), -- Nominativo speciale
