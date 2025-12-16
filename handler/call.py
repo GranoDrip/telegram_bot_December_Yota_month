@@ -70,6 +70,11 @@ async def callState_TWO(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 
             await update.message.reply_text(
                 f"✅ Perfetto! {input_text} il tuo team di appartenenza è {team}\n"
+                "❕Se il team non è corretto, rivolgiti a IV3JJH per risolvere il problema"
+            )
+
+            await update.message.reply_text(
+                f"🔩 Per modificare il tuo call personale usa /call \n"
             )
         except Exception as e:
             print(f"[ERRORE GENERICO] {e}") # *** Lancia questa exeption ***

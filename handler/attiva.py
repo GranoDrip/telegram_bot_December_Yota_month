@@ -26,7 +26,6 @@ async def attivazioneStep_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE
     if attivo is not None:
         await update.message.reply_text(
             f"⚠️ Risulti già attivo con il call {attivo[1]}.\n"
-            "Usa /fine prima di ricominciare."
         )
         return ConversationHandler.END
     

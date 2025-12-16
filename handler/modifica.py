@@ -32,7 +32,7 @@ async def modificaStep_ONE(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         return ConversationHandler.END
 
     await update.message.reply_text(
-        "Seleziona la banda da modificare:",
+        "Seleziona la banda:",
         reply_markup=getKeyboard_Bande()
     )
     return NEW_BANDA
@@ -72,7 +72,7 @@ async def modificaStep_TWO(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Passo alla scelta del modo
     await update.message.reply_text(
         f"{messaggio_avviso}\n👍 Banda {banda} selezionata.\n"
-        "Ora seleziona il Modifica di Emissione:",
+        "Ora seleziona il modo di Emissione:",
         reply_markup=getKeyboard_Modi()
     )
 
@@ -125,6 +125,7 @@ async def modificaStep_THREE(update: Update, context: ContextTypes.DEFAULT_TYPE)
         f"〰️ Banda: {context.user_data['temp_banda']}\n"
         f"🔊 Modo: {modoScelto}\n"
         f"👤 Op: {context.user_data['temp_operator']}\n"
+        "\n"
         "Buon DX! /fine per chiudere.",
         reply_markup=ReplyKeyboardRemove()
     )
